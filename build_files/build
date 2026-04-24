@@ -2,6 +2,9 @@
 
 set -uexo pipefail
 
+ln -s /var/roothome /root
+ln -s /var/usrlocal /usr/local
+
 dnf -y install cloud-init
 dnf -y install firewalld
 dnf -y install tmux
