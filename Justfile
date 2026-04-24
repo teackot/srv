@@ -39,8 +39,8 @@ disk *ARGS:
     sudo podman run \
         --rm -it --privileged \
         --security-opt label=type:unconfined_t \
-        -v bootc-image-builder.toml:/config.toml:ro \
-        -v output:/output \
+        -v ./bootc-image-builder.toml:/config.toml:ro \
+        -v ./output:/output \
         -v /var/lib/containers/storage:/var/lib/containers/storage \
         {{ARGS}} \
         {{bib}} \
