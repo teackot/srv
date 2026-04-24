@@ -4,6 +4,7 @@ COPY build_files /build_files
 FROM quay.io/fedora/fedora-bootc:44
 
 COPY rootfiles/etc /etc
+COPY rootfiles/usr /usr
 
 RUN --mount=type=bind,from=ctx,source=/build_files,target=/ctx \
     --mount=type=cache,target=/var/cache \
