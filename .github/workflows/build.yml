@@ -51,8 +51,8 @@ jobs:
         id: push
         env:
           REGISTRY: ${{ env.BUILD_REGISTRY }}
-          IMAGE: ${{ env.IMAGE }}
-          TAG: ${{ env.TAG }}
+          IMAGE: ${{ env.BUILD_IMAGE }}
+          TAG: ${{ env.BUILD_TAG }}
           MAX_RETRIES: 3
         run: |
           set -x
