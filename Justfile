@@ -13,7 +13,8 @@ build_suffix := env("BUILD_BUILD_SUFFIX", "-build")
 # disk image build vars
 
 bib := env("BUILD_BIB", "quay.io/centos-bootc/bootc-image-builder:latest")
-disk_type := env("BUILD_DISK_TYPE", "anaconda-iso")
+disk_type := env("BUILD_DISK_TYPE", "iso")
+bib_config := env("BUILD_BIB_CONFIG", "./anaconda-interactive.toml")
 rootfs := env("BUILD_ROOTFS", "btrfs")
 
 pull:
@@ -39,7 +40,7 @@ disk *ARGS:
     sudo podman run \
         --rm -it --privileged \
         --security-opt label=type:unconfined_t \
-        -v ./bootc-image-builder.toml:/config.toml:ro \
+        -v {{bib_config}}:/config.toml:ro \
         -v ./output:/output \
         -v /var/lib/containers/storage:/var/lib/containers/storage \
         {{ARGS}} \
