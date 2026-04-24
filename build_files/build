@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
 set -uexo pipefail
+
+dnf install cloud-init
+dnf install firewalld
+dnf install tmux
