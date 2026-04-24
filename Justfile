@@ -1,3 +1,5 @@
+# container image build vars
+
 registry := env("BUILD_REGISTRY", "localhost")
 image := env("BUILD_IMAGE", "srv")
 
@@ -7,6 +9,12 @@ tag := env("BUILD_TAG", branch)
 base := env("BUILD_BASE", "quay.io/fedora/fedora-bootc:" + branch)
 
 build_suffix := env("BUILD_BUILD_SUFFIX", "-build")
+
+# disk image build vars
+
+bib := env("BUILD_BIB", "quay.io/centos-bootc/bootc-image-builder:latest")
+disk_type := env("BUILD_DISK_TYPE", "anaconda-iso")
+rootfs := env("BUILD_ROOTFS", "btrfs")
 
 pull:
     sudo podman pull {{base}}
@@ -25,3 +33,18 @@ rechunk *ARGS:
         /usr/libexec/bootc-base-imagectl rechunk \
         {{registry}}/{{image}}:{{tag}}{{build_suffix}} \
         {{registry}}/{{image}}:{{tag}}
+
+disk *ARGS:
+    sudo mkdir -p output
+    sudo podman run \
+        --rm -it --privileged \
+        --security-opt label=type:unconfined_t \
+        -v bootc-image-builder.toml:/config.toml:ro \
+        -v output:/output \
+        -v /var/lib/containers/storage:/var/lib/containers/storage \
+        {{ARGS}} \
+        {{bib}} \
+            --use-librepo=True \
+            --type={{disk_type}} \
+            --rootfs={{rootfs}} \
+            "{{registry}}/{{image}}:{{tag}}"
