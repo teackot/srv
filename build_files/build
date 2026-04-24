@@ -2,6 +2,6 @@
 
 set -uexo pipefail
 
-dnf install cloud-init
-dnf install firewalld
-dnf install tmux
+dnf -y install cloud-init
+dnf -y install firewalld
+dnf -y install tmux
