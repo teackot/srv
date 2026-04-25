@@ -5,10 +5,5 @@ set -uexo pipefail
 rm -rf /usr/local
 ln -s /var/usrlocal /usr/local
 
-dnf -y install cloud-init
-ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants
-systemctl disable cloud-init-network.service
-systemctl mask cloud-init-network.service
-
 dnf -y install firewalld
 dnf -y install tmux
