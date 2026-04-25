@@ -2,6 +2,7 @@
 
 set -uexo pipefail
 
+rm -rf /usr/local
 ln -s /var/usrlocal /usr/local
 
 dnf -y install cloud-init
