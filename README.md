@@ -14,3 +14,11 @@ Build an Anaconda installer ISO image:
 sudo podman pull ghcr.io/teackot/srv:44
 sudo just registry=ghcr.io/teackot image=srv tag=44 disk
 ```
+
+### Known issues
+
+#### `systemd-remount-fs.service` fails on boot
+
+Happens because Anaconda adds an fstab entry for `/`. Tracked here: https://github.com/bootc-dev/bootc/issues/971
+
+To fix simply remove the `/` entry from fstab
