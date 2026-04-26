@@ -2,6 +2,8 @@
 
 set -uexo pipefail
 
+sed -i 's|#LockLayering.*|LockLayering=true|' /etc/rpm-ostreed.conf
+
 rm -rf /usr/local
 ln -s /var/usrlocal /usr/local
 
