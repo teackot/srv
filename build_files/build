@@ -4,9 +4,6 @@ set -uexo pipefail
 
 sed -i 's|#LockLayering.*|LockLayering=true|' /etc/rpm-ostreed.conf
 
-rm -rf /usr/local
-ln -s /var/usrlocal /usr/local
-
 dnf -y install zram-generator-defaults
 
 dnf -y install firewalld fail2ban
