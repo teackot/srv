@@ -5,6 +5,8 @@ set -uexo pipefail
 rm -rf /usr/local
 ln -s /var/usrlocal /usr/local
 
+dnf -y install zram-generator-defaults
+
 dnf -y install firewalld fail2ban
 
 dnf -y install tmux vim fish
