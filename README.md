@@ -8,11 +8,20 @@ sudo just build
 sudo just rechunk
 ```
 
-Build an Anaconda installer ISO image:
+Build an interactive Anaconda installer ISO image:
 
 ```bash
+just prepare_interactive
 sudo podman pull ghcr.io/teackot/srv:44
 sudo just registry=ghcr.io/teackot image=srv tag=44 disk
+```
+
+Build an unattended Anaconda installer ISO image:
+
+```bash
+just prepare_unattended user defaultpassword "ssh-ed25519 abcdef123456..."
+sudo podman pull ghcr.io/teackot/srv:44
+sudo just registry=ghcr.io/teackot image=srv tag=44 disk_type=anaconda-iso disk
 ```
 
 ### Known issues

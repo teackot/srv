@@ -14,7 +14,7 @@ build_suffix := env("BUILD_BUILD_SUFFIX", "-build")
 
 bib := env("BUILD_BIB", "quay.io/centos-bootc/bootc-image-builder:latest")
 disk_type := env("BUILD_DISK_TYPE", "iso")
-bib_config := env("BUILD_BIB_CONFIG", "./anaconda-interactive.toml")
+bib_config := env("BUILD_BIB_CONFIG", "./bootc-image-builder.toml")
 rootfs := env("BUILD_ROOTFS", "btrfs")
 
 pull:
@@ -34,6 +34,15 @@ rechunk *ARGS:
         /usr/libexec/bootc-base-imagectl rechunk \
         {{registry}}/{{image}}:{{tag}}{{build_suffix}} \
         {{registry}}/{{image}}:{{tag}}
+
+prepare_interactive:
+    cp ./anaconda-interactive.toml "{{bib_config}}"
+
+prepare_unattended username password pubkey:
+    cp ./anaconda-unattended.toml.in "{{bib_config}}"
+    sed -i 's/@USERNAME@/{{username}}/' "{{bib_config}}"
+    sed -i 's/@PASSWORD@/{{password}}/' "{{bib_config}}"
+    sed -i 's#@PUBKEY@#{{pubkey}}#' "{{bib_config}}"
 
 disk *ARGS:
     sudo mkdir -p output
