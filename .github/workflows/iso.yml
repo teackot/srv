@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  iso:
     runs-on: ubuntu-24.04
     permissions:
       packages: write
