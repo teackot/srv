@@ -26,12 +26,12 @@ jobs:
       - name: Prepare interactive
         id: prepare
         run: |
-          sudo just prepare_interactive
+          just prepare_interactive
 
       - name: Build installer image
         id: disk
         run: |
-          sudo just disk
+          just disk
           sudo cp output/bootiso/install.iso ./${BUILD_IMAGE}-${BUILD_TAG}.iso
           sudo chown $(id -u):$(id -g) ./${BUILD_IMAGE}-${BUILD_TAG}.iso
 
