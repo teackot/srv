@@ -58,3 +58,7 @@ disk *ARGS:
             --type={{disk_type}} \
             --rootfs={{rootfs}} \
             "{{registry}}/{{image}}:{{tag}}"
+
+clean:
+    rm -r ./output
+    rm "{{bib_config}}"
