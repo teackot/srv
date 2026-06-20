@@ -6,7 +6,7 @@ FROM quay.io/fedora/fedora-bootc:44
 COPY rootfiles/sshd/* /etc/ssh/sshd_config.d/
 COPY rootfiles/firewalld/* /usr/lib/firewalld/zones/
 
-COPY quadlets/pasarguard /usr/share/containers/systemd/users
+COPY quadlets/pasarguard /usr/share/containers/systemd/users/1000
 
 RUN --mount=type=bind,from=ctx,source=/build_files,target=/ctx \
     --mount=type=cache,target=/var/cache \
