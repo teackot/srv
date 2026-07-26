@@ -29,17 +29,12 @@ jobs:
         id: build
         run: just build
 
-      - name: Rechunk
-        id: rechunk
-        run: |
-          just rechunk
-
       - name: Login to GHCR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOGIN_USER: ${{ github.actor }}
         run: |
-          echo "${GITHUB_TOKEN}" | sudo podman login -u "${LOGIN_USER}" --password-stdin "ghcr.io"
+          echo "${GITHUB_TOKEN}" | podman login -u "${LOGIN_USER}" --password-stdin "ghcr.io"
 
       - name: Push to GHCR
         id: push
@@ -53,9 +48,9 @@ jobs:
           # HACK: push a second time so layer annotations are present
           # TODO: remove me when https://github.com/containers/podman/issues/27796 fixed
           for i in $(seq "${MAX_RETRIES}"); do
-            sudo podman push "$REGISTRY/$IMAGE:$TAG" && break || sleep $((5 * i));
+            podman push "$REGISTRY/$IMAGE:$TAG" && break || sleep $((5 * i));
           done
 
           for i in $(seq "${MAX_RETRIES}"); do
-            sudo podman push "$REGISTRY/$IMAGE:$TAG" && break || sleep $((5 * i));
+            podman push "$REGISTRY/$IMAGE:$TAG" && break || sleep $((5 * i));
           done
