@@ -5,6 +5,10 @@ COPY build_files /build_files
 
 FROM quay.io/fedora/fedora-bootc:44 as builder
 
+COPY cosign.pub /etc/pki/containers/srv.pub
+COPY --chmod=644 rootfiles/signing/policy.json /etc/containers/policy.json
+COPY --chmod=644 rootfiles/signing/srv.yaml /etc/containers/registries.d/srv.yaml
+
 COPY rootfiles/sshd/* /etc/ssh/sshd_config.d/
 COPY rootfiles/firewalld/* /usr/lib/firewalld/zones/
 
