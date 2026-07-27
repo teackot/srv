@@ -1,4 +1,7 @@
-An atomic bootc image for my proxy server based on fedora-bootc
+An atomic system which allows you to set up a proxy server with a management panel
+
+This is a *mostly* preconfigured atomic bootc image which ships all necessary
+tools to set up a proxy server with PasarGuard.
 
 ## Build
 
@@ -21,7 +24,7 @@ sudo podman pull ghcr.io/teackot/srv:44
 sudo just registry=ghcr.io/teackot image=srv tag=44 disk
 ```
 
-Build an unattended Anaconda installer ISO image:
+Build an unattended Anaconda installer ISO image (installs to the first disk found):
 
 ```bash
 just prepare_unattended user defaultpassword "ssh-ed25519 abcdef123456..."
