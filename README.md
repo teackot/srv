@@ -51,3 +51,55 @@ This can be useful if your VPS provider doesn't allow installing custom operatin
 5. Install the system: `sudo system-reinstall-bootc ghcr.io/teackot/srv:44`
 6. Answer all prompts, then wait for the installation process to finish and reboot
 7. ssh into the root account of the new system and configure it
+
+## Post-install steps
+
+### 1. Create a user (if not created during installation)
+
+Important: this image assumes that `uid=1000` and `gid=1000`
+
+```bash
+sudo useradd -m -G wheel -u 1000 -g 1000 user
+```
+
+### 2. Copy your ssh key
+
+For example (on a local machine):
+
+```bash
+ssh-copy-id -i .ssh/key.pub -p 1022 user@ip-address
+```
+
+### 3. Secure the sshd configuration
+
+Remove the default insecure config:
+
+```bash
+sudo rm /etc/ssh/sshd_config.d/10-REMOVEME_allow_password_auth.conf
+```
+
+If installed using `system-reinstall-bootc`, remove the root ssh keys:
+
+```bash
+sudo rm /etc/tmpfiles.d/bootc-root-ssh.conf /root/.ssh/authorized_keys
+```
+
+Restart sshd:
+
+```bash
+sudo systemctl restart sshd.service
+```
+
+### 4. Upgrade the system
+
+If installed with Anaconda:
+
+```bash
+sudo bootc upgrade --apply
+```
+
+If installed with `system-reinstall-bootc` (this command also switches you to a signed image for increased security):
+
+```bash
+sudo bootc switch --enforce-container-sigpolicy ghcr.io/teackot/srv:44 --apply
+```
