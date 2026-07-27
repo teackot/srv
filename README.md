@@ -32,14 +32,6 @@ sudo podman pull ghcr.io/teackot/srv:44
 sudo just registry=ghcr.io/teackot image=srv tag=44 disk_type=anaconda-iso disk
 ```
 
-#### Known issues
-
-##### `systemd-remount-fs.service` fails on boot
-
-Happens because Anaconda adds an fstab entry for `/`. Tracked here: https://github.com/bootc-dev/bootc/issues/971
-
-To fix simply remove the `/` entry from fstab
-
 ### Method 2: from within an existing VPS
 
 This can be useful if your VPS provider doesn't allow installing custom operating systems.
@@ -103,3 +95,11 @@ If installed with `system-reinstall-bootc` (this command also switches you to a 
 ```bash
 sudo bootc switch --enforce-container-sigpolicy ghcr.io/teackot/srv:44 --apply
 ```
+
+## Known issues
+
+### `systemd-remount-fs.service` fails on boot
+
+Happens because Anaconda adds an fstab entry for `/`. Tracked here: https://github.com/bootc-dev/bootc/issues/971
+
+To fix simply remove the `/` entry from fstab
