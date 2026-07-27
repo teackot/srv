@@ -1,12 +1,17 @@
-An atomic bootc image for my server based on fedora-bootc
+An atomic bootc image for my proxy server based on fedora-bootc
 
-Build a container image locally:
+# Build
+
+To build a container image locally:
 
 ```bash
-sudo just pull # (optional)
-sudo just build
-sudo just rechunk
+just pull
+just build
 ```
+
+# Install
+
+## Method 1: directly with Anaconda
 
 Build an interactive Anaconda installer ISO image:
 
@@ -31,3 +36,15 @@ sudo just registry=ghcr.io/teackot image=srv tag=44 disk_type=anaconda-iso disk
 Happens because Anaconda adds an fstab entry for `/`. Tracked here: https://github.com/bootc-dev/bootc/issues/971
 
 To fix simply remove the `/` entry from fstab
+
+## Method 2: from within an existing VPS
+
+This can be useful if your VPS provider doesn't allow installing custom operating systems.
+
+1. Boot into an existing system
+2. Add an ssh key to any user. It will be used later to ssh into your root account
+3. Install `system-reinstall-bootc`: `sudo dnf install system-reinstall-bootc`
+4. Pull the image: `sudo podman pull ghcr.io/teackot/srv:44`
+5. Install the system: `sudo system-reinstall-bootc ghcr.io/teackot/srv:44`
+6. Answer all prompts, then wait for the installation process to finish and reboot
+7. ssh into the root account of the new system and configure it
